@@ -44,26 +44,6 @@ h1 {
   }
 }
 
-a.cta-button {
-  display: inline-block;
-  color: #00ffe1;
-  text-decoration: none;
-  font-size: 1.5rem;
-  padding: 0.85em 1.75em;
-  border: 2px solid #00ffe1;
-  border-radius: 12px;
-  background-color: transparent;
-  transition: all 0.3s ease;
-  box-shadow: 0 0 15px rgba(0, 255, 225, 0.4), inset 0 0 5px rgba(0, 255, 225, 0.2);
-}
-
-a.cta-button:hover {
-  background-color: #00ffe1;
-  color: #000;
-  box-shadow: 0 0 25px #00ffe1, inset 0 0 10px rgba(0, 0, 0, 0.3);
-  transform: scale(1.05);
-}
-
 footer {
   position: absolute;
   bottom: 20px;
@@ -71,4 +51,56 @@ footer {
   color: #888;
   text-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
   animation: fadeIn 2s ease-in-out;
+}
+
+.cta-button,
+.token-button,
+.redeem-button {
+  display: inline-block;
+  margin: 12px;
+  padding: 16px 48px;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 500;
+  font-size: 1.5rem;
+  border-radius: 8px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.cta-button {
+  background-color: #00ffe1;
+  color: #000;
+  box-shadow: 0 4px 10px rgba(0, 255, 225, 0.4);
+}
+
+.cta-button:hover {
+  background-color: #00b774;
+  box-shadow: 0 6px 15px rgba(0, 255, 225, 0.5);
+  transform: scale(1.05);
+}
+
+.token-button {
+  background-color: #ffffff;
+  color: #000;
+  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.3);
+}
+
+.token-button:hover {
+  background-color: #e0e0e0;
+  transform: scale(1.05);
+}
+
+.redeem-button {
+  background-color: transparent;
+  color: #00ffe1;
+  border: 2px solid #00ffe1;
+  box-shadow: 0 4px 10px rgba(0, 255, 225, 0.3);
+}
+
+.redeem-button:hover {
+  background-color: #00ffe1;
+  color: #000;
+  transform: scale(1.05);
 }

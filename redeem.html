@@ -22,11 +22,20 @@
 
     <button onclick="connectWallet()">Connect MetaMask</button>
     <button onclick="redeem()">Redeem Now</button>
+
+    <br />
+    <br />
+
+    <div class="status" id="status"></div>
   </div>
 
   <script>
     const urlParams = new URLSearchParams(window.location.search);
     const codeFromURL = urlParams.get("code");
+
+    if (codeFromURL) {
+      document.getElementById("code").value = codeFromURL;
+    }
 
     async function connectWallet() {
       if (!window.ethereum) {
