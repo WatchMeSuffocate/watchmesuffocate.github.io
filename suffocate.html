@@ -5,33 +5,19 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Suffocate - Watch Me Suffocate</title>
-    <link rel="stylesheet" href="style/dao.css" />
+    <link rel="stylesheet" href="style/suffocate.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet" />
-    <style>
-        #token-info {
-            margin: 20px 0;
-            font-family: Arial, sans-serif;
-            line-height: 1.5;
-        }
-
-        #token-image {
-            width: 180px;
-            height: 180px;
-            object-fit: contain;
-            display: block;
-            margin-bottom: 15px;
-        }
-    </style>
 </head>
 
 <body>
-    <div id="token-overview">
+    <div class="container">
         <img id="token-image" src="image/token.png" alt="Token Logo" />
         <div id="token-info">Loading token info...</div>
     </div>
 
-    <script src="https://cdn.ethers.io/lib/ethers-5.6.umd.min.js" type="application/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.8.0/ethers.umd.min.js"
+        type="application/javascript"></script>
     <script>
         const TOKEN_CONTRACT = '0xe4C5b8aA4C575625648C13Ea036eCdFbE21f6961';
 
@@ -70,6 +56,7 @@
 
         fetchTokenDetails();
     </script>
+    <footer>&copy; 2025 Watch Me Suffocate</footer>
 </body>
 
 </html>
