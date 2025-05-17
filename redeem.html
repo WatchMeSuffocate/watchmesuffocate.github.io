@@ -60,10 +60,18 @@
         return;
       }
 
+      const validation = await validateWalletAddress(wallet);
+      if (!validation.valid) {
+        showStatus(validation.reason, "tomato");
+        return;
+      } else if (validation.warning) {
+        showStatus(validation.warning, "orange");
+      }
+
       showStatus("Processing redemption...");
 
       try {
-        const res = await fetch("https://api.watchmesuffocate.com/redeem", {
+        const res = await fetch("https://api.watchmesuffocate.com/api/redeem", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ code, address: wallet })
@@ -86,7 +94,28 @@
       el.innerText = msg;
       el.style.color = color;
     }
+
+    async function validateWalletAddress(address) {
+      const isValidFormat = /^0x[a-fA-F0-9]{40}$/.test(address);
+      if (!isValidFormat) {
+        return { valid: false, reason: "Invalid wallet address format." };
+      }
+
+      if (window.ethereum) {
+        try {
+          const accounts = await window.ethereum.request({ method: "eth_accounts" });
+          if (!accounts.map(a => a.toLowerCase()).includes(address.toLowerCase())) {
+            return { valid: true, warning: "Address is not currently connected via MetaMask." };
+          }
+        } catch (err) {
+          return { valid: true, warning: "Could not verify MetaMask connection." };
+        }
+      }
+
+      return { valid: true };
+    }
   </script>
+
   <footer>
     &copy; 2025 Watch Me Suffocate
   </footer>
