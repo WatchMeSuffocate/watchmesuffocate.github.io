@@ -1,0 +1,106 @@
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  background: linear-gradient(160deg, #000000 0%, #0f0f0f 100%);
+  color: #fff;
+  font-family: 'Orbitron', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+h1 {
+  font-size: 3rem;
+  margin-bottom: 2em;
+  color: #00ffe1;
+  text-shadow: 0 0 15px #00ffe1, 0 0 30px rgba(0, 255, 225, 0.5);
+  animation: glow 1.5s infinite alternate;
+}
+
+@keyframes glow {
+  from {
+    text-shadow: 0 0 10px #00ffe1, 0 0 20px rgba(0, 255, 225, 0.3);
+  }
+
+  to {
+    text-shadow: 0 0 20px #00ffe1, 0 0 40px rgba(0, 255, 225, 0.6);
+  }
+}
+
+footer {
+  position: absolute;
+  bottom: 20px;
+  font-size: 1rem;
+  color: #888;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+  animation: fadeIn 2s ease-in-out;
+}
+
+.cta-button,
+.token-button,
+.redeem-button {
+  display: inline-block;
+  margin: 12px;
+  padding: 16px 48px;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 500;
+  font-size: 1.5rem;
+  border-radius: 8px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.cta-button {
+  background-color: #00ffe1;
+  color: #000;
+  box-shadow: 0 4px 10px rgba(0, 255, 225, 0.4);
+}
+
+.cta-button:hover {
+  background-color: #00b774;
+  box-shadow: 0 6px 15px rgba(0, 255, 225, 0.5);
+  transform: scale(1.05);
+}
+
+.token-button {
+  background-color: #ffffff;
+  color: #000;
+  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.3);
+}
+
+.token-button:hover {
+  background-color: #e0e0e0;
+  transform: scale(1.05);
+}
+
+.redeem-button {
+  background-color: transparent;
+  color: #00ffe1;
+  border: 2px solid #00ffe1;
+  box-shadow: 0 4px 10px rgba(0, 255, 225, 0.3);
+}
+
+.redeem-button:hover {
+  background-color: #00ffe1;
+  color: #000;
+  transform: scale(1.05);
+}

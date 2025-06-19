@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Suffocate - Watch Me Suffocate</title>
+  <link rel="stylesheet" href="style/suffocate.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet" />
+</head>
+
+<body>
+  <div class="container">
+    <img id="token-image" src="image/token-img.png" alt="Token Logo" />
+    <div id="token-info">Loading token info...</div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.8.0/ethers.umd.min.js"
+    type="application/javascript"></script>
+  <script>
+    const TOKEN_CONTRACT = '0xe4C5b8aA4C575625648C13Ea036eCdFbE21f6961';
+
+    async function fetchTokenDetails() {
+      const provider = new ethers.providers.JsonRpcProvider('https://polygon-rpc.com');
+      const abi = [
+        'function name() view returns (string)',
+        'function symbol() view returns (string)',
+        'function decimals() view returns (uint8)',
+        'function totalSupply() view returns (uint256)'
+      ];
+      const contract = new ethers.Contract(TOKEN_CONTRACT, abi, provider);
+
+      try {
+        const [name, symbol, decimals, totalSupply] = await Promise.all([
+          contract.name(),
+          contract.symbol(),
+          contract.decimals(),
+          contract.totalSupply()
+        ]);
+
+        const formattedTotalSupply = ethers.utils.formatUnits(totalSupply, decimals);
+
+        document.getElementById('token-info').innerHTML = `
+          <p><strong>Token Name:</strong> ${name}</p>
+          <p><strong>Token Symbol:</strong> ${symbol}</p>
+          <p><strong>Decimals:</strong> ${decimals}</p>
+          <p><strong>Total Supply:</strong> ${formattedTotalSupply}</p>
+          <p><strong>Token Contract:</strong> 
+            <span id="contract-address" 
+                  style="cursor:pointer; color:#00ffe1; text-decoration:underline;" 
+                  onclick="copyToClipboard(this)">
+              ${TOKEN_CONTRACT}
+            </span>
+          </p>
+        `;
+      } catch (error) {
+        document.getElementById('token-info').innerText = 'Failed to load token details.';
+        console.error(error);
+      }
+    }
+
+    function copyToClipboard(el) {
+      const text = el.innerText;
+      navigator.clipboard.writeText(text)
+        .then(() => {
+          const original = el.innerText;
+          el.innerText = 'Copied!';
+          setTimeout(() => {
+            el.innerText = original;
+          }, 1500);
+        })
+        .catch(err => {
+          console.error('Copy failed', err);
+        });
+    }
+
+    fetchTokenDetails();
+  </script>
+
+  <footer>&copy; 2025 Watch Me Suffocate</footer>
+</body>
+
+</html>

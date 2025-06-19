@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Redeem - Watch Me Suffocate</title>
+  <link rel="stylesheet" href="style/redeem.css">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <div class="container">
+    <h1>Redeem Token</h1>
+
+    <label for="code">Redeem Code:</label>
+    <input type="text" id="code" placeholder="e.g. WMS-ABCD1234" />
+
+    <label for="wallet">Wallet Address:</label>
+    <input type="text" id="wallet" placeholder="0x... (manual input or via MetaMask)" />
+
+    <button onclick="connectWallet()">Connect MetaMask</button>
+    <button onclick="redeem()">Redeem Now</button>
+
+    <br />
+    <br />
+
+    <p style="margin-top:1rem;">
+      <a href="help.html" style="color:#00ffe1;">Need help? Read the guide here</a>
+    </p>
+    
+    <div class="status" id="status"></div>
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const codeFromURL = urlParams.get("code");
+
+    if (codeFromURL) {
+      document.getElementById("code").value = codeFromURL;
+    }
+
+    async function connectWallet() {
+      if (!window.ethereum) {
+        alert("MetaMask is required.");
+        return;
+      }
+      try {
+        const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
+        document.getElementById("wallet").value = accounts[0];
+      } catch (err) {
+        console.error(err);
+        alert("Wallet connection failed.");
+      }
+    }
+
+    async function redeem() {
+      const code = document.getElementById("code").value.trim();
+      const wallet = document.getElementById("wallet").value.trim();
+
+      if (!code || !wallet) {
+        showStatus("Please enter a valid code and wallet address.", "orange");
+        return;
+      }
+
+      const validation = await validateWalletAddress(wallet);
+      if (!validation.valid) {
+        showStatus(validation.reason, "tomato");
+        return;
+      } else if (validation.warning) {
+        showStatus(validation.warning, "orange");
+      }
+
+      showStatus("Processing redemption...");
+
+      try {
+        const res = await fetch("https://api.watchmesuffocate.com/api/redeem", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ code, address: wallet })
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+          showStatus("Token redeemed successfully!", "lime");
+        } else {
+          showStatus(`Error: ${data.message || "Redemption failed."}`, "tomato");
+        }
+      } catch (err) {
+        console.error(err);
+        showStatus("Network error during redemption.", "tomato");
+      }
+    }
+
+    function showStatus(msg, color = "#fff") {
+      const el = document.getElementById("status");
+      el.innerText = msg;
+      el.style.color = color;
+    }
+
+    async function validateWalletAddress(address) {
+      const isValidFormat = /^0x[a-fA-F0-9]{40}$/.test(address);
+      if (!isValidFormat) {
+        return { valid: false, reason: "Invalid wallet address format." };
+      }
+
+      if (window.ethereum) {
+        try {
+          const accounts = await window.ethereum.request({ method: "eth_accounts" });
+          if (!accounts.map(a => a.toLowerCase()).includes(address.toLowerCase())) {
+            return { valid: true, warning: "Address is not currently connected via MetaMask." };
+          }
+        } catch (err) {
+          return { valid: true, warning: "Could not verify MetaMask connection." };
+        }
+      }
+
+      return { valid: true };
+    }
+  </script>
+
+  <footer>
+    &copy; 2025 Watch Me Suffocate
+  </footer>
+</body>
+
+</html>
