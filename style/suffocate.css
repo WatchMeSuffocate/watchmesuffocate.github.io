@@ -12,7 +12,7 @@ body {
     text-align: center;
     overflow: hidden;
     animation: fadeIn 1s ease-in-out;
-  }
+}
 
 .container {
     max-width: 640px;
