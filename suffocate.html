@@ -5,41 +5,100 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Suffocate - Watch Me Suffocate</title>
-  <link rel="stylesheet" href="style/suffocate.css" />
+  <meta name="theme-color" content="#060809" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet" />
-  <style>
-    footer a {
-      color: inherit;
-      text-decoration: none;
-    }
-  </style>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Orbitron:wght@500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style/main.css" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
 </head>
 
 <body>
-  <div class="container">
-    <img id="token-image" src="token.png" alt="Token Logo" />
-    <div id="token-info">Loading token info...</div>
-  </div>
+  <header class="site-header">
+    <a class="brand" href="index.html"><img src="logo.png" alt="" /><span>Watch Me Suffocate</span></a>
+    <nav class="nav">
+      <a href="suffocate.html" aria-current="page">Token</a>
+      <a href="redeem.html">Redeem</a>
+      <a href="help.html">Help</a>
+    </nav>
+  </header>
 
-  <p id="link">
-    <a href="index.html" style="color:#00ffe1; text-decoration:underline;">
-      Back
-    </a>
-    <span style="color:#00ffe1;">|</span>
-    <a href="https://official.watchmesuffocate.com/paper/" target="_blank"
-      style="color:#00ffe1; text-decoration:underline;">
-      View Whitepaper
-    </a>
-  </p>
+  <main>
+    <section class="card wide">
+      <div class="token-head">
+        <img id="token-image" src="logo.png" alt="Token Logo" />
+        <div>
+          <span class="eyebrow">ERC-20 Token</span>
+          <h1 id="token-title">Suffocate</h1>
+          <span class="badge">Polygon</span>
+        </div>
+      </div>
+
+      <dl class="stats" id="token-info">
+        <div class="stat">
+          <dt>Name</dt>
+          <dd id="t-name"><span class="skeleton"></span></dd>
+        </div>
+        <div class="stat">
+          <dt>Symbol</dt>
+          <dd id="t-symbol"><span class="skeleton"></span></dd>
+        </div>
+        <div class="stat">
+          <dt>Total Supply</dt>
+          <dd id="t-supply"><span class="skeleton"></span></dd>
+        </div>
+        <div class="stat">
+          <dt>Decimals</dt>
+          <dd id="t-decimals"><span class="skeleton"></span></dd>
+        </div>
+        <div class="stat full">
+          <dt>Contract Address</dt>
+          <dd class="contract">
+            <code id="contract-address"></code>
+            <button class="icon-btn" id="copy-btn" type="button" onclick="copyToClipboard()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="12" height="12" rx="2" /><path d="M5 15H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v1" /></svg>
+              <span>Copy</span>
+            </button>
+          </dd>
+        </div>
+      </dl>
+      <div class="status" id="status" data-tone="error"></div>
+
+      <div class="links">
+        <a class="btn btn-ghost" id="explorer-link" target="_blank" rel="noopener noreferrer">View on PolygonScan ↗</a>
+        <a class="btn btn-primary" href="https://official.watchmesuffocate.com/paper/" target="_blank" rel="noopener noreferrer">Read Whitepaper ↗</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <a href="https://watchmesuffocate.com" target="_blank" rel="noopener">&copy; 2025 Watch Me Suffocate</a>
+  </footer>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.8.0/ethers.umd.min.js"
     type="application/javascript"></script>
   <script>
     const TOKEN_CONTRACT = '0xe4C5b8aA4C575625648C13Ea036eCdFbE21f6961';
 
+    document.getElementById('contract-address').textContent = TOKEN_CONTRACT;
+    document.getElementById('explorer-link').href = `https://polygonscan.com/token/${TOKEN_CONTRACT}`;
+
+    function setValue(id, value) {
+      document.getElementById(id).textContent = value;
+    }
+
     async function fetchTokenDetails() {
-      const provider = new ethers.providers.JsonRpcProvider('https://polygon-rpc.com');
+      const provider = new ethers.providers.FallbackProvider(
+        ['https://polygon-bor-rpc.publicnode.com', 'https://polygon.drpc.org'].map((url, i) => ({
+          provider: new ethers.providers.StaticJsonRpcProvider(url, 137),
+          priority: i + 1,
+          stallTimeout: 2000
+        })),
+        1
+      );
       const abi = [
         'function name() view returns (string)',
         'function symbol() view returns (string)',
@@ -56,35 +115,28 @@
           contract.totalSupply()
         ]);
 
-        const formattedTotalSupply = ethers.utils.formatUnits(totalSupply, decimals);
+        const formattedTotalSupply = Number(ethers.utils.formatUnits(totalSupply, decimals))
+          .toLocaleString('en-US', { maximumFractionDigits: 4 });
 
-        document.getElementById('token-info').innerHTML = `
-          <p><strong>Token Name:</strong> ${name}</p>
-          <p><strong>Token Symbol:</strong> ${symbol}</p>
-          <p><strong>Decimals:</strong> ${decimals}</p>
-          <p><strong>Total Supply:</strong> ${formattedTotalSupply}</p>
-          <p><strong>Token Contract:</strong> 
-            <span id="contract-address" 
-                  style="cursor:pointer; color:#00ffe1; text-decoration:underline;" 
-                  onclick="copyToClipboard(this)">
-              ${TOKEN_CONTRACT}
-            </span>
-          </p>
-        `;
+        setValue('token-title', name);
+        setValue('t-name', name);
+        setValue('t-symbol', symbol);
+        setValue('t-decimals', decimals);
+        setValue('t-supply', formattedTotalSupply);
       } catch (error) {
-        document.getElementById('token-info').innerText = 'Failed to load token details.';
+        ['t-name', 't-symbol', 't-decimals', 't-supply'].forEach(id => setValue(id, '—'));
+        document.getElementById('status').textContent = 'Failed to load token details. Please try again later.';
         console.error(error);
       }
     }
 
-    function copyToClipboard(el) {
-      const text = el.innerText;
-      navigator.clipboard.writeText(text)
+    function copyToClipboard() {
+      const label = document.querySelector('#copy-btn span');
+      navigator.clipboard.writeText(TOKEN_CONTRACT)
         .then(() => {
-          const original = el.innerText;
-          el.innerText = 'Copied!';
+          label.textContent = 'Copied!';
           setTimeout(() => {
-            el.innerText = original;
+            label.textContent = 'Copy';
           }, 1500);
         })
         .catch(err => {
@@ -94,12 +146,6 @@
 
     fetchTokenDetails();
   </script>
-
-  <footer>
-    <a href="https://watchmesuffocate.com" target="_blank">
-      &copy; 2025 Watch Me Suffocate
-    </a>
-  </footer>
 </body>
 
 </html>

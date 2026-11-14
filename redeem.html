@@ -5,35 +5,63 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Redeem - Watch Me Suffocate</title>
-  <link rel="stylesheet" href="style/redeem.css">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
-  <style>
-    footer a {
-      color: inherit;
-      text-decoration: none;
-    }
-  </style>
+  <meta name="theme-color" content="#060809" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Orbitron:wght@500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style/main.css" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
 </head>
 
 <body>
-  <div class="container">
-    <h1>Redeem Token</h1>
+  <header class="site-header">
+    <a class="brand" href="index.html"><img src="logo.png" alt="" /><span>Watch Me Suffocate</span></a>
+    <nav class="nav">
+      <a href="suffocate.html">Token</a>
+      <a href="redeem.html" aria-current="page">Redeem</a>
+      <a href="help.html">Help</a>
+    </nav>
+  </header>
 
-    <label for="code">Redeem Code:</label>
-    <input type="text" id="code" placeholder="e.g. WMS-ABCD1234" />
+  <main>
+    <section class="card narrow">
+      <div class="page-head">
+        <span class="eyebrow">Claim</span>
+        <h1>Redeem Token</h1>
+        <p class="lead">Enter your code and the wallet that should receive the token.</p>
+      </div>
 
-    <label for="wallet">Wallet Address:</label>
-    <input type="text" id="wallet" placeholder="0x... (manual input or via MetaMask)" />
+      <form onsubmit="event.preventDefault(); redeem();">
+        <div class="field">
+          <label for="code">Redeem Code</label>
+          <input type="text" id="code" placeholder="WMS-ABCD1234" autocomplete="off" spellcheck="false" />
+        </div>
 
-    <button onclick="connectWallet()">Connect MetaMask</button>
-    <button onclick="redeem()">Redeem Now</button>
+        <div class="field">
+          <label for="wallet">Wallet Address</label>
+          <div class="input-row">
+            <input type="text" id="wallet" placeholder="0x…" autocomplete="off" spellcheck="false" />
+            <button class="btn btn-ghost" type="button" onclick="connectWallet()">Connect MetaMask</button>
+          </div>
+        </div>
 
-    <p style="margin-top:1rem;">
-      <a href="help.html" style="color:#00ffe1;">Need help? Read the guide here</a>
-    </p>
+        <div class="form-actions">
+          <button class="btn btn-primary" id="redeem-btn" type="submit">Redeem Now</button>
+        </div>
+      </form>
 
-    <div class="status" id="status"></div>
-  </div>
+      <div class="status" id="status"></div>
+
+      <p class="helper">Need help? <a href="help.html">Read the guide</a></p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <a href="https://watchmesuffocate.com" target="_blank" rel="noopener">&copy; 2025 Watch Me Suffocate</a>
+  </footer>
 
   <script>
     const urlParams = new URLSearchParams(window.location.search);
@@ -45,15 +73,16 @@
 
     async function connectWallet() {
       if (!window.ethereum) {
-        alert("MetaMask is required.");
+        showStatus("MetaMask is required to connect a wallet. You can also paste your address manually.", "warn");
         return;
       }
       try {
         const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
         document.getElementById("wallet").value = accounts[0];
+        showStatus("");
       } catch (err) {
         console.error(err);
-        alert("Wallet connection failed.");
+        showStatus("Wallet connection failed.", "error");
       }
     }
 
@@ -62,18 +91,21 @@
       const wallet = document.getElementById("wallet").value.trim();
 
       if (!code || !wallet) {
-        showStatus("Please enter a valid code and wallet address.", "orange");
+        showStatus("Please enter a valid code and wallet address.", "warn");
         return;
       }
 
       const validation = await validateWalletAddress(wallet);
       if (!validation.valid) {
-        showStatus(validation.reason, "tomato");
+        showStatus(validation.reason, "error");
         return;
       } else if (validation.warning) {
-        showStatus(validation.warning, "orange");
+        showStatus(validation.warning, "warn");
       }
 
+      const button = document.getElementById("redeem-btn");
+      button.disabled = true;
+      button.textContent = "Processing…";
       showStatus("Processing redemption...");
 
       try {
@@ -85,20 +117,23 @@
 
         const data = await res.json();
         if (res.ok) {
-          showStatus("Token redeemed successfully!", "lime");
+          showStatus("Token redeemed successfully!", "ok");
         } else {
-          showStatus(`Error: ${data.message || "Redemption failed."}`, "tomato");
+          showStatus(`Error: ${data.message || "Redemption failed."}`, "error");
         }
       } catch (err) {
         console.error(err);
-        showStatus("Network error during redemption.", "tomato");
+        showStatus("Network error during redemption.", "error");
+      } finally {
+        button.disabled = false;
+        button.textContent = "Redeem Now";
       }
     }
 
-    function showStatus(msg, color = "#fff") {
+    function showStatus(msg, tone = "") {
       const el = document.getElementById("status");
       el.innerText = msg;
-      el.style.color = color;
+      el.dataset.tone = tone;
     }
 
     async function validateWalletAddress(address) {
@@ -121,12 +156,6 @@
       return { valid: true };
     }
   </script>
-
-  <footer>
-    <a href="https://watchmesuffocate.com" target="_blank">
-      &copy; 2025 Watch Me Suffocate
-    </a>
-  </footer>
 </body>
 
 </html>

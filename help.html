@@ -2,86 +2,104 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Help - Watch Me Suffocate</title>
-    <link rel="stylesheet" href="style/help.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
-    <style>
-        footer a {
-            color: inherit;
-            text-decoration: none;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Help - Watch Me Suffocate</title>
+  <meta name="theme-color" content="#060809" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Orbitron:wght@500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style/main.css" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
 </head>
 
 <body>
-    <div class="container">
+  <header class="site-header">
+    <a class="brand" href="index.html"><img src="logo.png" alt="" /><span>Watch Me Suffocate</span></a>
+    <nav class="nav">
+      <a href="suffocate.html">Token</a>
+      <a href="redeem.html">Redeem</a>
+      <a href="help.html" aria-current="page">Help</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="card medium">
+      <div class="page-head">
+        <span class="eyebrow">Guide</span>
         <h1>How to Redeem Your Token</h1>
+        <p class="lead">Got a code? Here's how to redeem it step by step.</p>
+      </div>
 
-        <p>Got a <strong>Code</strong>? Here's how to redeem it step-by-step:</p>
-
-        <h2>1. About the Token</h2>
-        <p>
+      <ol class="steps">
+        <li>
+          <h2>About the Token</h2>
+          <p>
             The <strong>Suffocate</strong> Token is an ERC-20 token on the <strong>Polygon network</strong>.
-            More info can be found at:<br />
-            <a href="suffocate.html" target="_blank" style="color:#00ffe1;">
-                token.watchmesuffocate.com/suffocate.html
-            </a>
-        </p>
+            More info: <a href="suffocate.html">token.watchmesuffocate.com/suffocate.html</a>
+          </p>
+        </li>
 
-        <h2>2. Set up MetaMask</h2>
-        <p>
-            To receive the token, you'll need a crypto wallet - we recommend <strong>MetaMask</strong>.
-        </p>
-        <ol style="text-align: left;">
+        <li>
+          <h2>Set up MetaMask</h2>
+          <p>To receive the token, you'll need a crypto wallet – we recommend <strong>MetaMask</strong>.</p>
+          <ol>
             <li>Install the MetaMask browser extension if you haven't already.</li>
-            <li>Add the <strong>Polygon Mainnet</strong> manually:
-                <ul>
-                    <li>Network Name: <code>Polygon Mainnet</code></li>
-                    <li>RPC URL: <code>polygon-mainnet.infura.io</code></li>
-                    <li>Chain ID: <code>137</code></li>
-                    <li>Currency Symbol: <code>POL</code></li>
-                    <li>Block Explorer URL: <code>https://polygonscan.com</code></li>
-                </ul>
-            </li>
-        </ol>
+            <li>Add the <strong>Polygon Mainnet</strong> manually:</li>
+          </ol>
+          <dl class="kv">
+            <dt>Network Name</dt>
+            <dd><code>Polygon Mainnet</code></dd>
+            <dt>RPC URL</dt>
+            <dd><code>polygon-mainnet.infura.io</code></dd>
+            <dt>Chain ID</dt>
+            <dd><code>137</code></dd>
+            <dt>Currency Symbol</dt>
+            <dd><code>POL</code></dd>
+            <dt>Block Explorer</dt>
+            <dd><code>https://polygonscan.com</code></dd>
+          </dl>
+        </li>
 
-        <h2>3. Import the Suffocate Token</h2>
-        <p>To view your token in MetaMask:</p>
-        <ol style="text-align: left;">
+        <li>
+          <h2>Import the Suffocate Token</h2>
+          <p>To view your token in MetaMask:</p>
+          <ol>
             <li>Open MetaMask.</li>
             <li>Click “Import Tokens”.</li>
-            <li>Paste the token contract address from the official token page:</li>
-            <li>
-                <code
-                    style="word-break: break-word;">(Copy from https://token.watchmesuffocate.com/suffocate.html)</code>
-            </li>
-        </ol>
+            <li>Paste the token contract address from the <a href="suffocate.html">official token page</a>.</li>
+          </ol>
+        </li>
 
-        <h2>4. Redeem Your Code</h2>
-        <p>
-            Go to the <a href="redeem.html" style="color:#00ffe1;">Redeem Page</a> and:
-        </p>
-        <ul style="text-align: left;">
-            <li>Enter your redeem code (e.g., <code>WMS-ABCD1234</code>).</li>
+        <li>
+          <h2>Redeem Your Code</h2>
+          <p>Go to the <a href="redeem.html">Redeem Page</a> and:</p>
+          <ul>
+            <li>Enter your redeem code (e.g. <code>WMS-ABCD1234</code>).</li>
             <li>Connect your wallet using MetaMask.</li>
             <li>Click <strong>“Redeem Now”</strong>.</li>
-        </ul>
+          </ul>
+        </li>
+      </ol>
 
-        <!--
-            <p style="margin-top:2rem;">
-            Still having issues? Contact us at <a href="mailto:support@watchmesuffocate.com"
-                style="color:#00ffe1;">support@watchmesuffocate.com</a>
-            </p>
-        !-->
-    </div>
+      <!--
+        <p class="helper">
+          Still having issues? Contact us at <a href="mailto:support@watchmesuffocate.com">support@watchmesuffocate.com</a>
+        </p>
+      -->
 
-    <footer>
-        <a href="https://watchmesuffocate.com" target="_blank">
-            &copy; 2025 Watch Me Suffocate
-        </a>
-    </footer>
+      <div class="form-actions">
+        <a class="btn btn-primary" href="redeem.html">Go to Redeem</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <a href="https://watchmesuffocate.com" target="_blank" rel="noopener">&copy; 2025 Watch Me Suffocate</a>
+  </footer>
 </body>
 
 </html>

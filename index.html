@@ -5,35 +5,59 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Token - Watch Me Suffocate</title>
-  <link rel="stylesheet" href="style/dao.css" />
+  <meta name="description" content="Watch Me Suffocate DAO – vote on proposals, view token info and redeem your SUFFOCATE token." />
+  <meta name="theme-color" content="#060809" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Orbitron:wght@500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style/main.css" />
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="manifest" href="/site.webmanifest">
-  <style>
-    footer a {
-      color: inherit;
-      text-decoration: none;
-    }
-  </style>
 </head>
 
 <body>
-  <h1>Welcome to the Watch Me Suffocate DAO</h1>
+  <header class="site-header">
+    <a class="brand" href="index.html"><img src="logo.png" alt="" /><span>Watch Me Suffocate</span></a>
+    <nav class="nav">
+      <a href="suffocate.html">Token</a>
+      <a href="redeem.html">Redeem</a>
+      <a href="help.html">Help</a>
+    </nav>
+  </header>
 
-  <a class="cta-button" href="https://snapshot.org/#/watchmesuffocate.eth" target="_blank" rel="noopener noreferrer">
-    Vote on Snapshot
-  </a>
+  <main>
+    <section class="hero">
+      <img class="hero-logo" src="logo.png" alt="Watch Me Suffocate logo" />
+      <h1>Watch Me Suffocate <span class="accent">DAO</span></h1>
+      <p class="lead">Shape the band's future with the community. Vote on proposals, explore the token and redeem your codes.</p>
+    </section>
 
-  <a class="token-button" onclick="location.href='suffocate.html'">Token Info</a>
-  <a class="redeem-button" onclick="location.href='redeem.html'">Redeem</a>
+    <div class="actions">
+      <a class="action primary" href="https://snapshot.org/#/watchmesuffocate.eth" target="_blank" rel="noopener noreferrer">
+        <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 12 2 2 4-4" /><path d="M5 7c0-1.1.9-2 2-2h10a2 2 0 0 1 2 2v12H5V7Z" /><path d="M22 19H2" /></svg></span>
+        <h2>Vote on Snapshot</h2>
+        <p>Have your say on active DAO proposals.</p>
+        <span class="arrow" aria-hidden="true">↗</span>
+      </a>
+      <a class="action" href="suffocate.html">
+        <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9" /><path d="M12 16v-4" /><path d="M12 8h.01" /></svg></span>
+        <h2>Token Info</h2>
+        <p>Live supply, contract address and details.</p>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+      <a class="action" href="redeem.html">
+        <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="2" /><path d="M12 8v13" /><path d="M3 12h18" /><path d="M12 8S10.5 3 8 3a2.5 2.5 0 0 0 0 5" /><path d="M12 8s1.5-5 4-5a2.5 2.5 0 0 1 0 5" /></svg></span>
+        <h2>Redeem</h2>
+        <p>Got a code? Claim your token here.</p>
+        <span class="arrow" aria-hidden="true">→</span>
+      </a>
+    </div>
+  </main>
 
-  <footer>
-    <a href="https://watchmesuffocate.com" target="_blank">
-      &copy; 2025 Watch Me Suffocate
-    </a>
+  <footer class="site-footer">
+    <a href="https://watchmesuffocate.com" target="_blank" rel="noopener">&copy; 2025 Watch Me Suffocate</a>
   </footer>
 </body>
 
